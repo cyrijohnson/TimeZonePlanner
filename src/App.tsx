@@ -242,8 +242,11 @@ export default function App() {
         </div>
 
         <div className="footer">
-          Tip: Add cities by IANA time zone (e.g., <code>Europe/Stockholm</code>) or try common names like <code>Bengaluru</code>, <code>London</code>, <code>Tokyo</code>.
+          <p>
+            <a href="/privacy">Privacy Policy</a> | <a href="/terms">Terms of Service</a>
+          </p>
         </div>
+
       </div>
     </div>
   )
