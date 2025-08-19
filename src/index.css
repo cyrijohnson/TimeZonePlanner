@@ -45,6 +45,7 @@ body {
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 12px;
+  align-items: center;
 }
 input, select, button {
   height: 38px;
