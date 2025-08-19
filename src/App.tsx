@@ -138,7 +138,7 @@ export default function App() {
       <div className="card">
         <div className="header">
           <h1>Timezone Planner</h1>
-          <span className="small">Compare timelines across cities and time zones.</span>
+          <p className="tagline">Compare timelines across cities and time zones.</p>
         </div>
 
         <div className="inputs">
