@@ -1,7 +1,7 @@
 
 :root {
-  --border: #e5e7eb;
-  --muted: #6b7280;
+  --border: rgba(255, 255, 255, 0.1);
+  --muted: #9ca3af;
   --bg: #0b0c10;
   --panel: #111318;
   --text: #e5e7eb;
@@ -13,9 +13,19 @@
 html, body, #root { height: 100%; }
 body {
   margin: 0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
-  background: var(--bg);
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+  background: radial-gradient(circle at 25% 25%, #1e293b 0%, var(--bg) 70%);
   color: var(--text);
+  min-height: 100vh;
+}
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover {
+  color: var(--accent-2);
+  text-decoration: underline;
 }
 .container {
   max-width: 1100px;
@@ -23,20 +33,30 @@ body {
   padding: 0 16px;
 }
 .card {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  background: rgba(17, 19, 24, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
 }
 .header {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 14px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 20px;
 }
 .header h1 {
-  font-size: 22px;
+  font-size: 28px;
+  margin: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.tagline {
+  color: var(--muted);
+  font-size: 14px;
   margin: 0;
 }
 .small { color: var(--muted); font-size: 12px; }
@@ -57,6 +77,7 @@ input, select, button {
 button {
   cursor: pointer;
   border-color: #1f2937;
+  transition: background 0.2s, transform 0.1s;
 }
 button.primary {
   background: var(--accent);
@@ -64,13 +85,22 @@ button.primary {
   border: none;
   font-weight: 600;
 }
+button.primary:hover {
+  background: #3b82f6;
+}
+button:hover {
+  background: #1f2937;
+}
+button:active {
+  transform: scale(0.97);
+}
 .tag {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 6px 10px;
-  background: #0e1117;
-  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 999px;
   font-size: 13px;
 }
@@ -83,6 +113,10 @@ button.primary {
   background: transparent;
   color: var(--muted);
   border: 1px solid var(--border);
+  transition: background 0.2s;
+}
+.tag button:hover {
+  background: rgba(255, 255, 255, 0.05);
 }
 .grid {
   overflow-x: auto;
@@ -160,6 +194,7 @@ button.primary {
   margin-top: 16px;
   color: var(--muted);
   font-size: 12px;
+  text-align: center;
 }
 hr.sep {
   border: none;
