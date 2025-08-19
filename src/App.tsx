@@ -62,11 +62,45 @@ function toUTCStartOfToday(): Date {
   return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0))
 }
 
+function initialItems(): TZItem[] {
+  if (typeof localStorage !== 'undefined') {
+    const saved = localStorage.getItem('tz-items')
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved)
+        if (Array.isArray(parsed) && parsed.length) return parsed
+      } catch {
+        /* ignore */
+      }
+    }
+  }
+  const userTZ = Intl.DateTimeFormat().resolvedOptions().timeZone
+  const localItem: TZItem = {
+    id: 'local',
+    label: `Your Time (${userTZ.replace(/_/g, ' ')})`,
+    tz: userTZ,
+  }
+  const rest = DEFAULTS.filter(i => i.tz !== userTZ)
+  return [localItem, ...rest]
+}
+
 export default function App() {
-  const [items, setItems] = useState<TZItem[]>(DEFAULTS)
+  const [items, setItems] = useState<TZItem[]>(initialItems)
   const [input, setInput] = useState('')
-  const [workStart, setWorkStart] = useState(9)   // local working hours
-  const [workEnd, setWorkEnd] = useState(17)
+  const [workStart, setWorkStart] = useState(() => {
+    if (typeof localStorage !== 'undefined') {
+      const v = localStorage.getItem('workStart')
+      if (v !== null) return parseInt(v)
+    }
+    return 9
+  })
+  const [workEnd, setWorkEnd] = useState(() => {
+    if (typeof localStorage !== 'undefined') {
+      const v = localStorage.getItem('workEnd')
+      if (v !== null) return parseInt(v)
+    }
+    return 17
+  })
   const gridRef = useRef<HTMLDivElement | null>(null)
 
   const utcStart = useMemo(() => toUTCStartOfToday(), [])
@@ -118,6 +152,24 @@ export default function App() {
     })
   }
 
+  useEffect(() => {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('tz-items', JSON.stringify(items))
+    }
+  }, [items])
+
+  useEffect(() => {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('workStart', workStart.toString())
+    }
+  }, [workStart])
+
+  useEffect(() => {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('workEnd', workEnd.toString())
+    }
+  }, [workEnd])
+
   // Keyboard: Enter to add
   function onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Enter') addLocation(input)
@@ -149,6 +201,7 @@ export default function App() {
             onChange={e => setInput(e.target.value)}
             onKeyDown={onKeyDown}
             style={{ minWidth: 340 }}
+            autoFocus
           />
           <datalist id="tzlist">
             {timezonesForDatalist.map(z => <option key={z} value={z} />)}
