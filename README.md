@@ -21,3 +21,5 @@ npm run preview
 - Use IANA time zones like `Asia/Kolkata` or city aliases (e.g., Bengaluru, Stockholm, New York).
 - Working hours highlighting is configurable.
 - No external APIs required; the browser formats times with `Intl.DateTimeFormat`.
+- Local time zone is detected automatically on first load.
+- Selected locations and working-hour preferences persist via `localStorage`.
